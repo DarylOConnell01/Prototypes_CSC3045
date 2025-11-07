@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 1. Front-End Service
+  frontend:
+    build:
+      context: ./service-1-editor-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - charcount
+      - wordcount
+    
+  # 2. Back-End Service (service-2-editor-charcount)
+  charcount:
+    build:
+      context: ./service-2-editor-charcount
+    ports:
+      # Map host port 90 to the container's internal port 90
+      - "90:90"
+    # IMPORTANT: The front-end container accesses this using http://charcount:90
+
+  # 3. Back-End Service (service-3-editor-wordcount)
+  wordcount:
+    build:
+      context: ./service-3-editor-wordcount
+    ports:
+      # Map host port 91 to the container's internal port 91
+      - "91:91"
+    # IMPORTANT: The front-end container accesses this using http://wordcount:91
