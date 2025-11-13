@@ -1,0 +1,20 @@
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: python:3.9-slim
+  script:
+    - cd CSC3065_ClassifyIP/ClassifyIp
+    - pip install flask flask-cors pytest
+    - python -m pytest Test.py -v
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - cd CSC3065_ClassifyIP/ClassifyIp
+    - docker build -t classify-ip:latest .

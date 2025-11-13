@@ -1,0 +1,20 @@
+{
+  "name": "bad-ip",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "jest": "^30.2.0",
+    "supertest": "^6.3.4"
+  }
+}

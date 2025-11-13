@@ -1,0 +1,20 @@
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: php:8.1-cli
+  script:
+    - cd php-country
+    - php -l index.php
+    - php -l CountryLocator.php
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - cd php-country
+    - docker build -t php-country:latest .
