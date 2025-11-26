@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprentice Theory Test</title>
+    <!-- Importing Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+        .screen {
+            display: none; /* Hide all screens by default */
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .active-screen {
+            display: block; /* Only show the active screen */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-option {
+            width: 100%;
+            text-align: left;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .btn-option:hover:not(:disabled) {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .correct {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46;
+            position: relative;
+        }
+        .incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-screen" class="screen active-screen">
+        <div class="text-center mb-8">
+            <div class="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Apprentice Theory App</h1>
+            <p class="text-gray-500 mt-2">Log in to track your progress</p>
+        </div>
+        
+        <form id="login-form">
+            <label class="block mb-2 font-bold text-gray-700 text-sm uppercase tracking-wide">Full Name</label>
+            <input type="text" id="username" class="w-full p-4 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter Full Name" required>
+            <button type="submit" class="w-full bg-blue-600 text-white p-4 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">Start Learning</button>
+        </form>
+    </div>
+
+    <!-- 2. DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen">
+        <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-6">
+            <div>
+                <h2 class="text-xl font-bold text-gray-800">Welcome, <span id="user-display" class="text-blue-600">User</span></h2>
+                <p class="text-xs text-gray-400 mt-1">Select a module to begin</p>
+            </div>
+            <button onclick="logout()" class="text-red-500 text-sm font-medium hover:text-red-700">Logout</button>
+        </div>
+
+        <div class="grid gap-4">
+            <!-- Safety Card -->
+            <div onclick="startQuiz('Safety')" class="group p-5 border-2 border-transparent bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 group-hover:text-red-600 transition">Safety</h3>
+                        <p class="text-sm text-gray-500 mt-1">Fire safety & lifting procedures</p>
+                    </div>
+                    <span class="text-gray-300 group-hover:text-red-500 text-2xl">→</span>
+                </div>
+            </div>
+            
+            <!-- Procedures Card -->
+            <div onclick="startQuiz('Procedures')" class="group p-5 border-2 border-transparent bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 group-hover:text-blue-600 transition">Procedures</h3>
+                        <p class="text-sm text-gray-500 mt-1">PPE, Reporting, and Site Rules</p>
+                    </div>
+                    <span class="text-gray-300 group-hover:text-blue-500 text-2xl">→</span>
+                </div>
+            </div>
+            
+            <!-- Standards Card -->
+            <div onclick="startQuiz('Standards')" class="group p-5 border-2 border-transparent bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 group-hover:text-green-600 transition">Standards</h3>
+                        <p class="text-sm text-gray-500 mt-1">ISO regulations & Work at Height</p>
+                    </div>
+                    <span class="text-gray-300 group-hover:text-green-500 text-2xl">→</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-100">
+            <button onclick="showScreen('resources-screen')" class="w-full bg-gray-900 text-white p-4 rounded-lg font-medium hover:bg-gray-800 transition flex items-center justify-center gap-2">
+                <span>View Learning Resources</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. QUIZ SCREEN -->
+    <div id="quiz-screen" class="screen">
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="showScreen('dashboard-screen')" class="text-gray-400 hover:text-gray-600 font-medium">← Exit</button>
+            <span id="question-counter" class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded">Q 1/3</span>
+        </div>
+
+        <div class="mb-8">
+            <span id="quiz-category-badge" class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2 block">Category</span>
+            <h3 id="question-text" class="text-xl font-bold text-gray-800 leading-snug">Question goes here?</h3>
+        </div>
+
+        <div id="options-container">
+            <!-- Buttons generated by JS -->
+        </div>
+
+        <div id="explanation-box" class="hidden mt-6 p-5 bg-gray-50 rounded-lg border border-gray-200 animation-fade-in">
+            <h4 class="font-bold text-gray-800 mb-1" id="feedback-title">Feedback</h4>
+            <p id="explanation-text" class="text-sm text-gray-600 mb-4 leading-relaxed"></p>
+            <button onclick="nextQuestion()" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">Next Question</button>
+        </div>
+    </div>
+
+    <!-- 4. RESULTS SCREEN -->
+    <div id="results-screen" class="screen text-center">
+        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-3xl">🎉</span>
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-gray-800">Module Complete!</h2>
+        <p class="text-gray-500 mb-6">You have completed the section.</p>
+        
+        <div class="bg-gray-50 rounded-xl p-6 mb-8 border border-gray-100">
+            <div class="text-sm text-gray-500 uppercase tracking-wide font-bold mb-1">Your Score</div>
+            <div class="text-5xl font-bold text-blue-600" id="final-score">0/0</div>
+        </div>
+        
+        <button onclick="showScreen('dashboard-screen')" class="w-full bg-gray-900 text-white p-4 rounded-lg font-bold hover:bg-gray-800 transition">Back to Dashboard</button>
+    </div>
+
+    <!-- 5. RESOURCES SCREEN -->
+    <div id="resources-screen" class="screen">
+        <div class="flex items-center gap-4 mb-6">
+            <button onclick="showScreen('dashboard-screen')" class="text-gray-400 hover:text-gray-600">← Back</button>
+            <h2 class="text-xl font-bold text-gray-800">Visual Resources</h2>
+        </div>
+        
+        <div class="space-y-4">
+            <div class="p-4 bg-white border border-gray-200 rounded-lg flex items-center gap-4 hover:border-red-300 transition cursor-pointer group">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-800">Fire Safety Standard</div>
+                    <div class="text-xs text-gray-500">Video • 4:20 mins</div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-white border border-gray-200 rounded-lg flex items-center gap-4 hover:border-blue-300 transition cursor-pointer group">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-800">Correct Lifting Technique</div>
+                    <div class="text-xs text-gray-500">Video • 2:15 mins</div>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-white border border-gray-200 rounded-lg flex items-center gap-4 hover:border-green-300 transition cursor-pointer group">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" /></svg>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-800">ISO 9001 Basics</div>
+                    <div class="text-xs text-gray-500">Video • 5:00 mins</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const QUESTIONS = {
+            Safety: [
+                { q: "What is the first thing you should do when you discover a fire?", options: ["Run away", "Sound the alarm", "Try to fight it", "Call your boss"], ans: "Sound the alarm", exp: "Correct! Always alert others first by sounding the alarm before taking any other action." },
+                { q: "Which type of fire extinguisher is safe for electrical fires?", options: ["Water", "Foam", "CO2 (Carbon Dioxide)", "Wet Chemical"], ans: "CO2 (Carbon Dioxide)", exp: "Correct! CO2 extinguishers do not conduct electricity and are safe for electrical equipment." },
+                { q: "When lifting a heavy load, you should...", options: ["Bend your back", "Keep the load close to your waist", "Twist while lifting", "Lift above your head"], ans: "Keep the load close to your waist", exp: "Correct! Keeping the load close reduces strain on your back." }
+            ],
+            Procedures: [
+                { q: "What does PPE stand for?", options: ["Personal Protective Equipment", "Public Property Enforcement", "Private Person Entry", "Protective Procedure Element"], ans: "Personal Protective Equipment", exp: "Correct! PPE is essential clothing or equipment designed to protect the body from injury." },
+                { q: "Who is responsible for reporting a near-miss incident?", options: ["Only the manager", "The safety officer", "Everyone", "The person involved"], ans: "Everyone", exp: "Correct! Safety is everyone's responsibility. If you see it, report it." }
+            ],
+            Standards: [
+                { q: "What is the minimum height requiring fall protection?", options: ["1 meter", "2 meters", "3 meters", "Any height where injury could occur"], ans: "Any height where injury could occur", exp: "Correct! Modern standards require risk assessment for any work at height." },
+                { q: "ISO 9001 refers to which management system?", options: ["Environmental", "Quality", "Health & Safety", "Information Security"], ans: "Quality", exp: "Correct! ISO 9001 is the international standard for Quality Management Systems." }
+            ]
+        };
+
+        // --- STATE ---
+        let currentQuiz = [];
+        let currentIndex = 0;
+        let score = 0;
+        let currentCategory = "";
+
+        // --- INIT ---
+        // Check if user is already logged in via LocalStorage
+        window.onload = function() {
+            const savedUser = localStorage.getItem('apprentice_user');
+            if (savedUser) {
+                document.getElementById('user-display').innerText = savedUser;
+                showScreen('dashboard-screen');
+            } else {
+                showScreen('login-screen');
+            }
+        };
+
+        // --- AUTH LOGIC ---
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop page reload
+            const usernameInput = document.getElementById('username');
+            const username = usernameInput.value.trim();
+            
+            if(!username) return;
+
+            // Save to LocalStorage (Fake Database)
+            localStorage.setItem('apprentice_user', username);
+            
+            document.getElementById('user-display').innerText = username;
+            showScreen('dashboard-screen');
+        });
+
+        function logout() {
+            localStorage.removeItem('apprentice_user');
+            document.getElementById('username').value = ""; // Clear input
+            showScreen('login-screen');
+        }
+
+        // --- NAVIGATION LOGIC ---
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active-screen'));
+            // Show target screen
+            document.getElementById(screenId).classList.add('active-screen');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- QUIZ LOGIC ---
+        function startQuiz(category) {
+            currentCategory = category;
+            currentQuiz = QUESTIONS[category];
+            currentIndex = 0;
+            score = 0;
+            
+            // Set Badge
+            document.getElementById('quiz-category-badge').innerText = category;
+            
+            showScreen('quiz-screen');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const qData = currentQuiz[currentIndex];
+            document.getElementById('question-counter').innerText = `Question ${currentIndex + 1}/${currentQuiz.length}`;
+            document.getElementById('question-text').innerText = qData.q;
+            
+            // Hide explanation
+            document.getElementById('explanation-box').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            qData.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option';
+                btn.innerText = opt;
+                // Add click handler
+                btn.onclick = () => checkAnswer(btn, opt, qData.ans, qData.exp);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(btn, selected, correct, explanation) {
+            // Disable all buttons so user can't change answer
+            const buttons = document.querySelectorAll('.btn-option');
+            buttons.forEach(b => b.disabled = true);
+
+            const feedbackTitle = document.getElementById('feedback-title');
+            
+            if (selected === correct) {
+                btn.classList.add('correct');
+                score++;
+                feedbackTitle.innerText = "Correct!";
+                feedbackTitle.className = "font-bold text-green-700 mb-1";
+            } else {
+                btn.classList.add('incorrect');
+                feedbackTitle.innerText = "Incorrect";
+                feedbackTitle.className = "font-bold text-red-700 mb-1";
+                
+                // Highlight the correct one so they learn
+                buttons.forEach(b => {
+                    if (b.innerText === correct) b.classList.add('correct');
+                });
+            }
+
+            // Show explanation
+            document.getElementById('explanation-text').innerText = explanation;
+            document.getElementById('explanation-box').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuiz.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('final-score').innerText = `${score}/${currentQuiz.length}`;
+            showScreen('results-screen');
+           
+            console.log(`Saved score for ${currentCategory}: ${score}`);
+        }
+
+    </script>
+</body>
+</html>
